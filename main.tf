@@ -21,3 +21,13 @@ provider "aws" {
     s3         = var.endpoint
   }
 }
+
+resource "aws_lambda_function" "sample_lambda" {
+  function_name = "sample-lambda"
+  filename      = "sample-lambda.zip"
+  runtime       = "nodejs14.x"
+  handler       = "index.handler"
+  role          = "test"
+  memory_size   = "128"
+  timeout       = "30"
+}
