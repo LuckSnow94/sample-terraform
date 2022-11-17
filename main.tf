@@ -29,7 +29,7 @@ resource "aws_lambda_function" "sample_lambda" {
   runtime       = "nodejs14.x"
   handler       = "index.handler"
   memory_size   = "128"
-  timeout       = "30"
+  timeout       = "5"
 }
 
 resource "aws_lambda_permission" "apigw_lambda" {
@@ -54,7 +54,7 @@ resource "aws_api_gateway_resource" "resource" {
 resource "aws_api_gateway_method" "method" {
   rest_api_id   = aws_api_gateway_rest_api.sample_api.id
   resource_id   = aws_api_gateway_resource.resource.id
-  http_method   = "POST"
+  http_method   = "GET"
   authorization = "NONE"
 }
 
@@ -68,22 +68,24 @@ resource "aws_api_gateway_integration" "integration" {
 }
 
 # IAM
-# resource "aws_iam_role" "role" {
+# resource "aws_iam_role" "lambda_exec" {
 #   name = "sample-role"
 
-#   assume_role_policy = <<POLICY
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Action": "sts:AssumeRole",
-#       "Principal": {
-#         "Service": "lambda.amazonaws.com"
-#       },
-#       "Effect": "Allow",
-#       "Sid": ""
-#     }
-#   ]
+#   assume_role_policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [{
+#       Action = "sts:AssumeRole"
+#       Effect = "Allow"
+#       Sid    = ""
+#       Principal = {
+#         Service = "lambda.amazonaws.com"
+#       }
+#       }
+#     ]
+#   })
 # }
-# POLICY
+
+# resource "aws_iam_role_policy_attachment" "lambda_policy" {
+#   role       = aws_iam_role.lambda_exec.name
+#   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 # }
