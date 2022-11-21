@@ -1,5 +1,5 @@
 terraform {
-  required_version = "1.3.4"
+  required_version = "1.3.5"
 
   required_providers {
     aws = {
@@ -10,20 +10,41 @@ terraform {
 }
 
 provider "aws" {
-  skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
+  skip_credentials_validation = true
 
   endpoints {
-    apigateway = local.endpoint
-    lambda     = local.endpoint
-    s3         = local.endpoint
+    apigateway     = local.endpoint
+    apigatewayv2   = local.endpoint
+    cloudformation = local.endpoint
+    cloudwatch     = local.endpoint
+    cloudwatchlogs = local.endpoint
+    dynamodb       = local.endpoint
+    ec2            = local.endpoint
+    es             = local.endpoint
+    elasticache    = local.endpoint
+    firehose       = local.endpoint
+    iam            = local.endpoint
+    kinesis        = local.endpoint
+    lambda         = local.endpoint
+    rds            = local.endpoint
+    redshift       = local.endpoint
+    route53        = local.endpoint
+    s3             = local.s3
+    secretsmanager = local.endpoint
+    ses            = local.endpoint
+    sns            = local.endpoint
+    sqs            = local.endpoint
+    ssm            = local.endpoint
+    stepfunctions  = local.endpoint
+    sts            = local.endpoint
   }
 }
 
 # LAMBDA
 resource "aws_lambda_function" "sample_lambda" {
-  role          = "aws_iam_role.role.arn"
+  role          = aws_iam_role.lambda_exec.arn
   function_name = "sample-lambda"
   filename      = "sample-lambda.zip"
   runtime       = "nodejs14.x"
@@ -68,24 +89,24 @@ resource "aws_api_gateway_integration" "integration" {
 }
 
 # IAM
-# resource "aws_iam_role" "lambda_exec" {
-#   name = "sample-role"
+resource "aws_iam_role" "lambda_exec" {
+  name = "sample-role"
 
-#   assume_role_policy = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [{
-#       Action = "sts:AssumeRole"
-#       Effect = "Allow"
-#       Sid    = ""
-#       Principal = {
-#         Service = "lambda.amazonaws.com"
-#       }
-#       }
-#     ]
-#   })
-# }
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Sid    = ""
+      Principal = {
+        Service = "lambda.amazonaws.com"
+      }
+      }
+    ]
+  })
+}
 
-# resource "aws_iam_role_policy_attachment" "lambda_policy" {
-#   role       = aws_iam_role.lambda_exec.name
-#   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-# }
+resource "aws_iam_role_policy_attachment" "lambda_policy" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
