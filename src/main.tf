@@ -18,6 +18,9 @@ terraform {
 }
 
 provider "aws" {
+  access_key                  = "accesskeytest"
+  secret_key                  = "secretkeytest"
+  region                      = "us-east-1"
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
   skip_credentials_validation = true
