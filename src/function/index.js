@@ -5,8 +5,6 @@ exports.handler = async (event) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      message: `ECHO: ${event}`
-    })
+    body: `ECHO: ${event.body}\n`
   }
 }
