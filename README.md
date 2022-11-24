@@ -9,6 +9,10 @@ Exemplo de aplicação de Terraform com a ferramenta Localstack, utilizando uma 
 - [Terraform](https://developer.hashicorp.com/terraform/downloads)
 - [Python](https://python.org.br/instalacao-linux/)
 
+## Repositório
+
+- [GitHub do projeto](https://github.com/LuckSnow94/sample-terraform)
+
 ## Inicialização
 
 Atualize seu sistema com o seguinte comando pelo terminal:
