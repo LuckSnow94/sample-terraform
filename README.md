@@ -8,6 +8,7 @@ Exemplo de aplicação de Terraform com a ferramenta Localstack, utilizando uma 
 - [AWS-CLI](https://docs.aws.amazon.com/pt_br/cli/latest/userguide/getting-started-install.html)
 - [Terraform](https://developer.hashicorp.com/terraform/downloads)
 - [Python](https://python.org.br/instalacao-linux/)
+- [Pip](https://pip.pypa.io/en/stable/installation/)
 
 ## Repositório
 
